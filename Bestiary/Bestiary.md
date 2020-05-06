@@ -150,7 +150,7 @@ Décomposons un peu ce qu'on voit là dedans
     include_once('flag.php');
 ?>
 ```
-Tout d'abbord on voit ici que les sessions sont stockées dans un dossier `sessions` qui se trouve dans le répertoire courant sur le serveur.
+Tout d'abord on voit ici que les sessions sont stockées dans un dossier `sessions` qui se trouve dans le répertoire courant sur le serveur.
 Ensuite on voit un appel à la fonction `include_once` qui inclut un fichier `flag.php`.
 
 On sait désormais que le flag se situe dans ce fichier.
@@ -205,7 +205,7 @@ http://challenges2.france-cybersecurity-challenge.fr:5004/sessions/sess_3f1c7ead
 
 On a bien accès au fichier de session qui contient :
 - `monster` -> le nom de la clé de session
-- s:53:"php://filter/convert.base64-encode/resource=index.php"; -> une string de 53 caractères qui contient ce qu'on lui avait donné dans la requête précédente (celle qui récupère le code source d'index.php encodé en base64).
+- `s:53:"php://filter/convert.base64-encode/resource=index.php";` -> une string de 53 caractères qui contient ce qu'on lui avait donné dans la requête précédente (celle qui récupère le code source d'index.php encodé en base64).
 
 Youpi. Voilà. Le code ne ment jamais.
 
