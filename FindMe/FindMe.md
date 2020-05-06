@@ -5,6 +5,7 @@ Dans ce billet, on va s'intéresser au challenge FindMe du FCSC 2020
 ![intro](assets/intro.png)
 
 
+
 ## Petit tour d'horizon
 
 Dans ce challenge, nous avons [ce fichier](ressource/find_me)
@@ -172,11 +173,11 @@ TADAAAAM !! le sésame.
 
 ![cat](assets/cat.png)
 
-## Référence
+
+## Références
 
 [1] http://man7.org/linux/man-pages/man2/mount.2.html
 
 [2] https://www.cgsecurity.org/wiki/TestDisk_FR
 
 [3] http://man7.org/linux/man-pages/man8/cryptsetup.8.html
-
