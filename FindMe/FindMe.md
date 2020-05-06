@@ -1,13 +1,13 @@
 # FindMe
 
-Dans ce billet, on va s'intéresser au chellenge FindMe du FCSC 2020
+Dans ce billet, on va s'intéresser au challenge FindMe du FCSC 2020
 
 ![intro](assets/intro.png)
 
 
 ## Petit tour d'horizon
 
-Dans ce challenge nous avons [ce fichier](ressource/find_me)
+Dans ce challenge, nous avons [ce fichier](ressource/find_me)
 
 Il n'y a pas d'extension. Du coup on va utiliser la commande [`file`](http://man7.org/linux/man-pages/man1/file.1.html) pour savoir quel est le type de ce fichier.
 
@@ -17,14 +17,14 @@ find_me: Linux rev 1.0 ext4 filesystem data, UUID=9c0d2dc5-184c-496a-ba8e-477309
 ```
 
 On voit ici que c'est un volume (une image disque) ext4.
-On va la monter, du coup.
+On va donc le monter.
 On commence par créer le répertoire cible.
 
 ```shell
 root@hostname:~# mkdir findme
 ```
 
-Et ensuite on le monte dedans.
+Et ensuite on monte le volume dans ce dossier.
 
 ```shell
 root@hostname:~# mount find_me findme
@@ -40,7 +40,7 @@ drwx------ 2 root root  12K avril  1 21:54 lost+found
 
 On a un dossier et 2 fichiers dans le volume.
 
-/!\ SPOILER ALERT /!\ Dans `lost+found` il n'y a rien. Nada. Que dalle.
+/!\ SPOILER ALERT /!\ Dans `lost+found` il n'y a rien ! Nada ! Que dalle !
 
 Si on regarde dans le fichier `pass.b64` on a
 
@@ -48,12 +48,12 @@ Si on regarde dans le fichier `pass.b64` on a
 root@hostname:~/findme# cat pass.b64
 nothing here. password splited!
 ```
-Circulez il n'y a rien à voir.
+Circulez ! il n'y a rien à voir.
 
-Notez quand même qu'on a une info qui dit que le mot de passe est splité.
+Notez, quand même, qu'on a une info qui dit que le mot de passe est splité.
 
-Le fichier `unlock_me` a l'air d'être un peu lourd. 25M.
-On va bien gentillement demander à `file` quel est le type de ce fichier.
+Le fichier `unlock_me` a l'air d'être un peu lourd : 25M.
+On va bien gentiment demander à `file` quel est le type de ce fichier.
 
 ```shell
 root@hostname:~/findme# file unlock_me
@@ -71,13 +71,13 @@ On a un truc qui ressemble à ça dedans
 
 C'est pas joli hein ? Bon on remarque ici des chaînes de caractères `part00`, `part01`, `part02` etc.
 
-Ça pourrait être des fichiers. Le soucis c'est que dans notre volume monté, on a aucune trace de ces fichiers.
+Ça pourrait être des fichiers. Le souci c'est que dans notre volume monté, on a aucune trace de ces fichiers.
 
 ## Mais où ~~est Charlie~~ sont les fichiers disparus ?
 
 Alors non, je vous ai vu sourire. Il ne sont pas là ;)
 
-Quel est l'outil qu'on utilise pour regarder ce qui a été éffacé ? [`Testdisk`](https://www.cgsecurity.org/wiki/TestDisk_FR) biensur !!
+Quel est l'outil qu'on utilise pour regarder ce qui a été éffacé ? [`Testdisk`](https://www.cgsecurity.org/wiki/TestDisk_FR) bien sûr !!
 
 On va donc passer un coup de `testdisk` sur le volume find_me .
 
@@ -89,7 +89,7 @@ Et que nous dit `testdisk` ?
 
 ![image2](assets/image2.png)
 
-On voit ici 21 fichiers écrasés. Du coup on va les restaurer.
+On voit ici 21 fichiers effacés. Du coup on va les restaurer.
 
 ```shell
 
@@ -130,7 +130,7 @@ root@hostname:~/findme# cat part*
 TWYtOVkyb01OWm5IWEtzak04cThuUlRUOHgzVWRZ
 ```
 
-Cette chaine ressemble à du base 64. On va essayer de la décoder.
+Cette chaîne ressemble à du base64. On va essayer de la décoder.
 
 ```shell
 root@hostname:~/findme# echo TWYtOVkyb01OWm5IWEtzak04cThuUlRUOHgzVWRZ | base64 -d
@@ -148,7 +148,7 @@ BINGO !
 
 Coup de bol, j'aurais pu vérifier que la string obtenue par `cat` ne soit pas la clé mais bon, BINGO quand même.
 
-Du coup regardons ce qu'on a dans ce fichier
+Du coup, regardons ce qu'on a dans ce volume
 
 ```shell
 root@hostname:~/findme# cd /media/root/畮汯捫敤/
@@ -175,5 +175,8 @@ TADAAAAM !! le sésame.
 ## Référence
 
 [1] http://man7.org/linux/man-pages/man2/mount.2.html
+
 [2] https://www.cgsecurity.org/wiki/TestDisk_FR
+
 [3] http://man7.org/linux/man-pages/man8/cryptsetup.8.html
+
