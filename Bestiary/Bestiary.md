@@ -23,7 +23,9 @@ On a ici une page contenant une image, une description, et le formulaire vu pré
 Le premier réflexe, est de regarder la tronche de l'URL
 
 
-```http://challenges2.france-cybersecurity-challenge.fr:5004/index.php?monster=mimic```
+```
+http://challenges2.france-cybersecurity-challenge.fr:5004/index.php?monster=mimic
+```
 
 Il y a ici un paramètre "monster" qui est transmis en GET.
 On voit aussi que la page a été générée à l'aide d'un script [PHP](https://fr.wikipedia.org/wiki/PHP) (index.php).
@@ -58,7 +60,9 @@ Here we go !
 
 On va écrire ça par exemple dans l'URL :
 
-```http://challenges2.france-cybersecurity-challenge.fr:5004/index.php?monster=php://filter/convert.base64-encode/resource=index.php```
+```
+http://challenges2.france-cybersecurity-challenge.fr:5004/index.php?monster=php://filter/convert.base64-encode/resource=index.php
+```
 
 Alors, ici, on va dire à la fonction [include](https://www.php.net/manual/fr/function.include.php) (vu au-dessus), de nous encoder en base64 le contenu du fichier index.php et de l'inclure (vu que c'est son nom à la petite fonction) dans la page.
 
