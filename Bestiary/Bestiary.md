@@ -12,7 +12,7 @@ Tout d'abord on va voir à quoi nous allons avoir affaire.
 
 On a ici une page Web avec un formulaire qui contient un input select et un bouton submit. Rien de ouf ouf ouf. En inspectant le code source, rien de suspect. Une page web classique en somme.
 
-On va séléctionner une valeur et valider le formulaire pour voir ce qu'il se passe
+On va sélectionner une valeur et valider le formulaire pour voir ce qu'il se passe
 
 ![image2](assets/image2.png)
 
@@ -26,7 +26,7 @@ Le premier réflexe, est de regarder la tronche de l'URL
 ```http://challenges2.france-cybersecurity-challenge.fr:5004/index.php?monster=mimic```
 
 Il y a ici un paramètre "monster" qui est transmis en GET.
-On voit aussi que la page a été généré à l'aide d'un script [PHP](https://fr.wikipedia.org/wiki/PHP) (index.php).
+On voit aussi que la page a été générée à l'aide d'un script [PHP](https://fr.wikipedia.org/wiki/PHP) (index.php).
 
 La récupération d'une valeur en GET est faite avec la variable [`$_GET`](https://www.php.net/manual/fr/reserved.variables.get.php)
 
@@ -34,11 +34,11 @@ La récupération d'une valeur en GET est faite avec la variable [`$_GET`](https
 $monster = $_GET['monster'];
 ```
 
-Que se passe t-il si nous injection le caractère '*' dans ce parametre ?
+Que se passe-t-il si nous injectons le caractère '*' dans ce paramètre ?
 
 ![image3](assets/image3.png)
 
-Oh ! Mais WTF ? Une belle erreur [PHP](https://fr.wikipedia.org/wiki/PHP) qui tâche comme un bon gros [Flamby](https://fr.wikipedia.org/wiki/Flanby) qui fait blob blob et qui en fou absolument partout dans la cuisine quand on tape dessus.
+Oh ! Mais WTF ? Une belle erreur [PHP](https://fr.wikipedia.org/wiki/PHP) qui tâche comme un bon gros [Flamby](https://fr.wikipedia.org/wiki/Flanby) qui fait blob blob et qui en fout absolument partout dans la cuisine quand on tape dessus.
 
 À partir de cette erreur, il est aisé de deviner comment est foutu le code derrière ça.
 Un truc comme ça par exemple :
@@ -52,7 +52,7 @@ include($_GET['monster']);
 //Blablabla j'affiche le résultat
 ```
 
-Et si on essaye de détourner ce code pour récupérer le contenu du code [PHP](https://fr.wikipedia.org/wiki/PHP) de cette page ?
+Et si on essaie de détourner cette instruction pour récupérer le contenu du code [PHP](https://fr.wikipedia.org/wiki/PHP) de cette page ?
 
 Here we go !
 
@@ -60,7 +60,7 @@ On va écrire ça par exemple dans l'URL :
 
 ```http://challenges2.france-cybersecurity-challenge.fr:5004/index.php?monster=php://filter/convert.base64-encode/resource=index.php```
 
-Alors ici on va dire à la fonction include (vu au dessus), de nous encoder en base64 le contenu du fichier index.php et de l'inclure donc (vu que c'est son nom à la petite fonction) dans la page.
+Alors, ici, on va dire à la fonction include (vu au-dessus), de nous encoder en base64 le contenu du fichier index.php et de l'inclure (vu que c'est son nom à la petite fonction) dans la page.
 
 On teste ?
 
@@ -72,7 +72,7 @@ BIG BADABOOM !
 
 On a réussi à afficher, encodé en base64 certes, le contenu du fichier index.php.
 
-Du coup il nous reste juste à le décoder.
+Du coup, il nous reste juste à le décoder.
 
 Étant donné que je suis plus à l'aise avec [PHP](https://fr.wikipedia.org/wiki/PHP), pour aller plus vite, je vais utiliser un prompt [PHP](https://fr.wikipedia.org/wiki/PHP) pour décoder ça avec la commande
 
@@ -150,8 +150,8 @@ Décomposons un peu ce qu'on voit là dedans
     include_once('flag.php');
 ?>
 ```
-Tout d'abbord on voit ici que les sessions sont stockés dans un dossier `sessions` qui se trouve dans le répertoire courant sur le serveur.
-Ensuite on voit un appel à la fonction `include_once` qui inclus un fichier `flag.php`.
+Tout d'abbord on voit ici que les sessions sont stockées dans un dossier `sessions` qui se trouve dans le répertoire courant sur le serveur.
+Ensuite on voit un appel à la fonction `include_once` qui inclut un fichier `flag.php`.
 
 On sait désormais que le flag se situe dans ce fichier.
 
@@ -176,24 +176,24 @@ Continuons un peu plus loin
 ?>
 ```
 
-On voit ici une variable `$monter` initialisée à la valeur `NULL`.
+On voit ici une variable `$monster` initialisée à la valeur `NULL`.
 
 [`$_SESSION`](https://www.php.net/manual/fr/reserved.variables.session.php) une variable [superglobale](https://www.php.net/manual/fr/language.variables.superglobals.php) de [PHP](https://fr.wikipedia.org/wiki/PHP) qui stocke toutes les informations de la session courante.
 
 On a un test qui nous dit :
 - Si la clé `monster` est présente dans `$_SESSION` et qu'elle n'est pas vide, alors on met la valeur contenue dans `$_SESSION['monster']` dans `$monster`
 - Si la clé `monster` est présente dans `$_GET` et que `$_GET['monster']` n'est pas vide, alors on met la valeur contenue dans `$_GET['monster']` dans `$monster`. Puis on copie la valeur contenue dans `$monster` dans `$_SESSION['monster']`
-- Si `$monster` n'est strictement pas `NULL` et que `$monster` ne contient pas la chaine de caractère `flag`, alors on inclus `$monster`. Sinon on écrit un message "Select a monster [...]" blablabla.
+- Si `$monster` n'est strictement pas `NULL` et que `$monster` ne contient pas la chaîne de caractère `flag`, alors on inclut `$monster`. Sinon, on écrit un message "Select a monster [...]" blablabla.
 
-En résumé au chargement de la page on récupère la valeur stocké dans la session. On l'écrase si une valeur nous a été fourni dans l'url. Si elle ne contient pas "flag", on l'inclus. Sinon on affiche une belle phrase en anglais.
+En résumé, au chargement de la page, on récupère la valeur stockée dans la session. On l'écrase si une valeur nous a été fournie dans l'url. Si elle ne contient pas "flag", on l'inclut. Sinon, on affiche une belle phrase en anglais.
 
-Bon. Du coup on fait quoi ?
+Bon. Du coup, on fait quoi ?
 
 Déjà, on va vérifier qu'on a accès à notre fichier de session, vu qu'on sait où il est.
 
 ![image5](assets/image5.png)
 
-Via le navigateur, dans les outils de débuggage, on a accès aux cookies, notemment celui de session.
+Via le navigateur, dans les outils de débuggage, on a accès aux cookies, notamment celui de session.
 
 Son petit nom c'est `PHPSESSID`. On copie/colle la valeur et on va aller voir si le fichier existe bien via l'url
 
@@ -203,9 +203,9 @@ http://challenges2.france-cybersecurity-challenge.fr:5004/sessions/sess_3f1c7ead
 
 ![image6](assets/image6.png)
 
-On a bien accès au fichier de session avec à l'intérieur :
+On a bien accès au fichier de session qui contient :
 - `monster` -> le nom de la clé de session
-- s:53:"php://filter/convert.base64-encode/resource=index.php"; -> une string de 53 caractères qui contient ce qu'on lui avait donné dans la requete précédente (celle qui récupère le code source d'index.php encodé en base64).
+- s:53:"php://filter/convert.base64-encode/resource=index.php"; -> une string de 53 caractères qui contient ce qu'on lui avait donné dans la requête précédente (celle qui récupère le code source d'index.php encodé en base64).
 
 Youpi. Voilà. Le code ne ment jamais.
 
@@ -227,20 +227,20 @@ http://challenges2.france-cybersecurity-challenge.fr:5004/index.php?monster=<?ph
 
 ![image7](assets/image7.png)
 
-Il ne se passe rien car nous avons la chaine de caractère "flag", ils nous affiche la page d'accueil de base.
+Il ne se passe rien car nous avons la chaîne de caractère "flag", ils nous affiche la page d'accueil de base.
 
-Si on retourne dans le fichier de session, devrait voir la chaine injectée.
+Si on retourne dans le fichier de session, on devrait voir la chaîne injectée.
 ```
 http://challenges2.france-cybersecurity-challenge.fr:5004/sessions/sess_3f1c7ead6618338b2f6370b32e678ade
 ```
 
 ![image8](assets/image8.png)
 
-On voit donc que notre payload a bien été injecté dans el fichier de session.
+On voit donc que notre payload a bien été injecté dans le fichier de session.
 
 Mais vous allez me dire
 
-"- Et après ? T'as foutu une chaine de caractère dans un fichier de session, t'es content ?"
+"- Et après ? T'as foutu une chaîne de caractère dans un fichier de session, t'es content ?"
 
 Eh bah GRAVE ! Parce que si, au lieu d'injecter un bout de code [PHP](https://fr.wikipedia.org/wiki/PHP), on injecte le fichier de session, ce qui se trouve entre `<?php` et `?>` va être executé comme du code [PHP](https://fr.wikipedia.org/wiki/PHP) par la méthode include !
 
@@ -251,7 +251,7 @@ http://challenges2.france-cybersecurity-challenge.fr:5004/index.php?monster=sess
 
 On voit ici qu'on a bien un bout du fichier de session qui a été inclus car on voit un `monster|s:44:"`.
 
-Du coup si on regarde le code source de la page HTML on a ça
+Du coup, si on regarde le code source de la page HTML on a ça
 
 ![image10](assets/image10.png)
 
