@@ -7,7 +7,7 @@ Oyé oyé à toi. Je vais présenter le challenge Lipogrammeurs du [FCSC 2020](h
 
 ## Kesako ?
 
-Tout d'abord, regardons à quoi nous allons avoir affaire
+Tout d'abord, regardons à quoi nous avons affaire
 
 ![image1](assets/image1.png)
 
@@ -35,29 +35,29 @@ On va analyser un peu ce qu'on voit.
 
 En premier lieu, on remarque un paramètre GET `code`.
 
-Ensuite on voit un [`substr`](https://www.php.net/manual/fr/function.substr.php) qui va prendre ce paramètre et retourner les 250 premiers caractères (depuis le position 0 sur une longueur de 250).
+Ensuite on voit un [`substr`](https://www.php.net/manual/fr/function.substr.php) qui va prendre ce paramètre et retourner les 250 premiers caractères (depuis la position 0 sur une longueur de 250).
 
-Après notre attention se porte sur le [`preg_match`](https://www.php.net/manual/fr/function.preg-match). Cette instruction nous dit si la string contenu dans la variable `$code` contient les caractères 'a' ou 'e' ou 'i' ou 'o' ou 'u' ou 'y' ou un caractère numérique (ou ouhouhouhouhouhou pardon), que ce soit majuscule ou minuscule, alors on assassine le script en balançant la string 'No way! Go away !'
+Après notre attention se porte sur le [`preg_match`](https://www.php.net/manual/fr/function.preg-match). Cette instruction nous dit que si la string dans dans la variable `$code` contient les caractères 'a' ou 'e' ou 'i' ou 'o' ou 'u' ou 'y' ou un caractère numérique (ou ouhouhouhouhouhou pardon), que ce soit majuscule ou minuscule, alors on assassine le script en balançant la string 'No way! Go away !'
 
-On remarque aussi un try ... catch. À l'intérieur, on voit une fonction [`eval`](https://www.php.net/manual/fr/function.eval). Pour résumer, cette fonction interprète une chaîne de caractère comme du code PHP (cf la doc). Si le code injecté a une erreur de syntaxe,  alors elle balancera une exception `ParseError` qui sera catché. Dans le catch on arrête le script et on affiche le même message que pour le `preg_match`.
+On remarque aussi un try ... catch. À l'intérieur, on voit une fonction [`eval`](https://www.php.net/manual/fr/function.eval). Pour résumer, cette fonction interprète une chaîne de caractères comme du code PHP (cf la doc). Si le code injecté a une erreur de syntaxe, alors elle balancera une exception `ParseError` qui sera catchée. Dans le catch, on arrête le script et on affiche le même message que pour le `preg_match`.
 
-Si on a pas de paramètre GET `code`, on affiche ce code source.
+Si on n'a pas de paramètre GET `code`, on affiche ce code source.
 
-Du coup, en résumé, il faut injecter du code PHP sans voyelles insensible à la casse et ne contenant aucun caractère numérique.
+Du coup, en résumé, il faut injecter du code PHP sans voyelle insensible à la casse et ne contenant aucun caractère numérique.
 
-Ça ne va pas nous faciliter la tâche tout ça.
+Ça ne va pas nous faciliter la tâche tout ça !
 
-Si on essaye d'injecter du code PHP classique on tombe bien sur cette erreur
+Si on essaie d'injecter du code PHP classique, on tombe bien sur cette erreur
 
 ![image2](assets/image2.png)
 
-Du coup comment peut-on procéder ?
+Du coup, comment peut-on procéder ?
 
-On va essayer de truander un peu.
+On va essayer de truander un peu :)
 
 ## Simple. Basique.
 
-En PHP, si on stocke une chaîne de caractère dans une variable et qu'on l'appelle comme une comme une fonction, cela revient au même que d'appeler cette même fonction. Exemple
+En PHP, si on stocke une chaîne de caractères dans une variable et qu'on l'appelle comme une fonction, cela revient à appeler cette même fonction. Exemple
 
 ```php
 <?php
@@ -80,20 +80,14 @@ Ce code affiche un message très original.
 
 /!\ WARNING (clic, clac, clic, clac, clic, clac) /!\
 
-PHP interdit certaines fonctions critiques d'être appelé par une string :
+PHP interdit certaines fonctions critiques d'être appelées par une string :
 
 - echo
-
 - print
-
 - unset
-
 - isset
-
 - empty
-
 - include
-
 - require
 
 On va utiliser cette astuce pour truander le `preg_match` en "obfuscant" le code PHP
@@ -124,17 +118,17 @@ $b($h(".")); // VAR_DUMP(SCANDIR("."))
 
 ```
 
-Ici, on créer une variable `$_` qui contient un tableau vide.
+Ici, on crée une variable `$_` qui contient un tableau vide.
 
 L'instruction d'après `$_=@"$_";` nous permet de récupérer le type de la variable `$_`, ici la chaîne de caractère 'Array'
 
-Ensuite, l'instruction `$_=$_["!"=="@"]` nous permet de récupérer le premier caractère du contenu de la variable `$_` et d'écraser cette même variable par le résultat. Ici le caractère 'A'.
+Ensuite, l'instruction `$_=$_["!"=="@"]` nous permet de récupérer le premier caractère du contenu de la variable `$_` et d'écraser cette même variable par le résultat. Ici, le caractère 'A'.
 
-À partir de là nous copions ce caractère dans une variable `$z`.
+À partir de là, nous copions ce caractère dans une variable `$z`.
 
 Puis, en faisant `++$_`, on va passer au caractère suivant 'B', puis 'C', etc.
 
-/!\ ATTENTION /!\ En PHP, l'incrémentation de caractère suit la même règle que le Perl et pas celle du C. C'est à dire qu'arrivé à 'Z', si on fait '++' sur la variable, nous allons passer à 'AA' et non pas au caractère suivant dans la table ASCII.
+/!\ ATTENTION /!\ En PHP, l'incrémentation de caractère suit la même règle que Perl et pas celle de C. C'est à dire, qu'arrivé à 'Z', si on fait '++' sur la variable, nous allons passer à 'AA' et non pas au caractère suivant dans la table ASCII.
 
 Nous allons donc stocker toutes les voyelles dont nous avons besoin.
 
@@ -150,15 +144,15 @@ En résumé dans ce code :
 - On récupère le caractère 'O' dans '$p'
 - On construit la chaîne 'ORD' dans `$j`
 - On récupère le code ASCII du caractère 'b' en utilisant la fonction `ORD` dans '$d'
-- On récupère le caractère 'a' via [chr](https://www.php.net/manual/fr/function.chr.php) à partir du code ascii de "b" qu'on décrémente (ça pourra nous servir plus tard même si ça ne gêne pas dans l'immédiat)
+- On récupère le caractère 'a' via [chr](https://www.php.net/manual/fr/function.chr.php) à partir du code ASCII de "b" qu'on décrémente (ça pourra nous servir plus tard, même si ça ne gêne pas dans l'immédiat)
 - On récupère le caractère 'U' dans '$n'
-- On construit la chaîne de caractère ['SCANDIR'](https://www.php.net/manual/fr/function.scandir.php) dans `$h`
-- On construit la chaîne de caractère ['VAR_DUMP'](https://www.php.net/manual/fr/function.var-dump) dans `$b`
+- On construit la chaîne de caractères ['SCANDIR'](https://www.php.net/manual/fr/function.scandir.php) dans `$h`
+- On construit la chaîne de caractères ['VAR_DUMP'](https://www.php.net/manual/fr/function.var-dump) dans `$b`
 - On appelle le tout : `VAR_DUMP(SCANDIR("."))`
 
 On va essayer de lister les fichiers présents dans le répertoire courant sur le serveur distant.
 
-On va contrôler la taille de la chaîne générée et on va virer les commentaires et les sauts le lignes, puis on va encoder ça en codage URL
+On va contrôler la taille de la chaîne générée et on va virer les commentaires et les sauts le lignes, puis on va encoder en code URL
 
 ```
 php > echo strlen('$_=[];$_=@"$_";$_=$_["!"=="@"];$z=$_;++$_;++$_;++$_;$r=++$_;++$_;++$_;++$_;$t=++$_;++$_;++$_;++$_;++$_;++$_;$p=++$_;$j = $p."RD";$d = $j("b");++$_;++$_;++$_;++$_;++$_;$n=++$
@@ -178,15 +172,15 @@ On obtient
 
 ![image3](assets/image3.png)
 
-Donc dans ce répertoire nous avons 2 fichiers ('.' et '..' sont des répertoires. '.' le répertoire courant, et '..' le répertoire parent).
+Donc dans ce répertoire, nous avons 2 fichiers ('.' et '..' sont des répertoires. '.' le répertoire courant, et '..' le répertoire parent).
 - `.flag.inside.J44kYHYL3asgsU7R9zHWZXbRWK7JjF7E.php`
 - `index.php`
 
-On pourrait essayer d'afficher le contenu de `.flag.inside.J44kYHYL3asgsU7R9zHWZXbRWK7JjF7E.php` mais le nom du fichier est trop grand, contient des caractères numériques et des voyelles.
+On pourrait essayer d'afficher le contenu de `.flag.inside.J44kYHYL3asgsU7R9zHWZXbRWK7JjF7E.php` mais le nom du fichier est trop grand et contient des caractères numériques et des voyelles.
 
-Un des seul répertoire, si ce n'est le seul, à être accessible en écriture sous Unix est le dossier `/tmp`.
+Un des seuls répertoires, si ce n'est le seul, à être accessible en écriture sous Unix est le dossier `/tmp`.
 
-On va donc essayer de copier le contenu de ce fichier dans un fichier, dans le répertoire `/tmp`
+On va donc essayer de copier le contenu dans un nouveau fichier, dans le répertoire `/tmp`
 
 On va donc écrire le [payload](https://fr.wikipedia.org/wiki/Charge_utile) suivant
 
@@ -213,7 +207,7 @@ $v = "c{$p}t ./.* > /tmp/prt"; // 'cat ./.* > /tmp/prt'
 $h($v); // EXEC("cat ./.* > /tmp/prt")
 ```
 
-La seule différence par rapport au code d'avant sont les 3 dernières instructions.
+La seule différence par rapport au code d'avant est les 3 dernières instructions.
 On a donc la même chose sauf
 - `$h` contient [`EXEC`](https://www.php.net/manual/fr/function.exec)
 - `$v` contient `cat ./.* > /tmp/prt`
@@ -222,7 +216,7 @@ Et enfin
 - `$h($v)` fait `EXEC("cat ./.* > /tmp/prt")`
 
 
-Idem qu'au dessus, on va vérifier sa taille et l'encoder en caractères URL
+Idem qu'au-dessus, on va vérifier sa taille et l'encoder en caractères URL
 
 ```
 php > echo strlen('$_=[];$_=@"$_";$_=$_["!"=="@"];$z=$_;++$_;++$_;++$_;$r=++$_;++$_;++$_;++$_;$t=++$_;++$_;++$_;++$_;++$_;++$_;$p=++$_;$j = $p."RD";$d = $j("b");++$_;++$_;++$_;++$_;++$_;$p =
@@ -239,7 +233,7 @@ On appelle l'URL
 http://challenges2.france-cybersecurity-challenge.fr:5008/?code=%24_%3D%5B%5D%3B%24_%3D%40%22%24_%22%3B%24_%3D%24_%5B%22%21%22%3D%3D%22%40%22%5D%3B%24z%3D%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%24r%3D%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%24t%3D%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%24p%3D%2B%2B%24_%3B%24j+%3D+%24p.%22RD%22%3B%24d+%3D+%24j%28%22b%22%29%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%24p+%3D+chr%28--%24d%29%3B%24n%3D%2B%2B%24_%3B%24h+%3D+%22%7B%24r%7DX%7B%24r%7DC%22%3B%24v+%3D+%22c%7B%24p%7Dt+.%2F.%2A+%3E+%2Ftmp%2Fprt%22%3B%24h%28%24v%29%3B
 ```
 
-On l'execute et on obtien
+On l'execute et on obtient
 
 ![image4](assets/image4.png)
 
@@ -285,9 +279,9 @@ On exécute ce paylod
 
 ![image5](assets/image5.png)
 
-On a bien notre fichir `prt` présent dans `/tmp`
+On a bien notre fichier `prt` présent dans `/tmp`
 
-Enfin, on va essayé de récupérer le contenu de ce fichier grâce ) la fonction PHP [`file`](https://www.php.net/manual/fr/function.file.php)
+Enfin, on va essayer de récupérer le contenu de ce fichier grâce à la fonction PHP [`file`](https://www.php.net/manual/fr/function.file.php)
 
 ```php
 <?php
