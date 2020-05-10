@@ -1,12 +1,12 @@
 # Revision
 
-Pouet ! Dans cet article, on va regarder au challenge Révision [FCSC 2020](https://www.france-cybersecurity-challenge.fr/)
+Pouet ! Dans cet article, on va regarder le challenge Révision [FCSC 2020](https://www.france-cybersecurity-challenge.fr/)
 
 ![intro](assets/intro.png)
 
-On a ici un site d'archivage de documents électrioniques. On a le code ([disponible ici](ressources/comparator.py)) de la page.
+On a ici un site d'archivage de documents électroniques. On a le code ([disponible ici](ressources/comparator.py)) de la page.
 
-On va déjà regarder comment fonctionne un peu le site fonctionnellement parlant.
+On va déjà regarder comment est fait le site fonctionnellement parlant.
 
 ![image1](assets/image1.png)
 
@@ -24,7 +24,7 @@ Si on lui soumet 2 PDFs différents,
 
 ![image4](assets/image4.png)
 
-Les documents sont encoyés à l'équipe d'archivage.
+Les documents sont envoyés à l'équipe d'archivage.
 
 L'énoncé nous disait que "Depuis quelques temps néanmoins, cet outil dysfonctionne. Les salariés se plaignent de ne pas recevoir tous les documents et il n'est pas rare que le système plante". Et qu'il faut aider le mec qui a développé ce truc à reproduire le bug.
 
@@ -116,9 +116,9 @@ class Comparator(object):
         return flag
 ```
 
-Pour une fois on a pas affaire à du [PHP](https://fr.wikipedia.org/wiki/PHP) mais à du [Python](https://fr.wikipedia.org/wiki/Python_(langage)).
+Pour une fois on n'a pas affaire à du [PHP](https://fr.wikipedia.org/wiki/PHP) mais à du [Python](https://fr.wikipedia.org/wiki/Python_(langage)).
 
-Que nous dis ce code ?
+Que nous dit ce code ?
 
 ## Analyse du ~~boa~~ Python
 
@@ -145,7 +145,7 @@ def store(self):
         self.m.send(attachments=attachments)
 ```
 
-On récupère le condensat [SHA1](https://fr.wikipedia.org/wiki/SHA-1) de `f1` et `f2` (des fichiers 1 et fichiers 2 donc). Dans la condition d'après, si le condensat de `f1` ou que le condensat de `f2` est présent en base de données, alors on balance une exception `DatabaseError` définit un peu plus haut dans ce fichier.
+On récupère le condensat [SHA1](https://fr.wikipedia.org/wiki/SHA-1) de `f1` et `f2` (des fichiers 1 et fichiers 2 donc). Dans la condition d'après, si le condensat de `f1` ou que le condensat de `f2` est présent en base de données, alors on balance une exception `DatabaseError` définie un peu plus haut dans ce fichier.
 
 Ensuite l'instruction suivante est intéressante
 
@@ -155,9 +155,9 @@ attachments = set([f1_hash, f2_hash])
 
 Cette instruction récupère un tableau de condensat SHA1 des 2 fichiers envoyés.
 
-La fonction [set](https://docs.python.org/3/library/stdtypes.html#set) de Python est l'équivalent du [array_unique](https://www.php.net/manual/fr/function.array-unique.php) de PHP, même si c'est pas tout à fait ça. En tout cas, ici nous allons le [considérer en tant que tel](https://www.youtube.com/watch?v=Tj_DHw6L9BQ). Si la valeur est la même, un tableau avec des valeurs dédoublonnés sera retourné. En l'occurrence, ici, nous aurions un tableau avec... une seule valeur !
+La fonction [set](https://docs.python.org/3/library/stdtypes.html#set) de Python est l'équivalent du [array_unique](https://www.php.net/manual/fr/function.array-unique.php) de PHP, même si c'est pas tout à fait ça. En tout cas, ici nous allons le [considérer en tant que tel](https://www.youtube.com/watch?v=Tj_DHw6L9BQ). Si la valeur est la même, un tableau avec des valeurs dédoublonnées sera retourné. En l'occurrence, ici, nous aurions un tableau avec... une seule valeur !
 
-Puis, si la longueur du tableau est inférieur à 2, alors YOLO on fait la fête tout nu dans la forêt toussa, sinon, on envoie les document au service concerné.
+Puis, si la longueur du tableau est inférieure à 2, alors YOLO on fait la fête tout nu dans la forêt toussa... sinon, on envoie les documents au service concerné.
 
 ## Du coup, keskonfé ?
 
