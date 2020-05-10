@@ -194,7 +194,7 @@ convert text1.txt text1.pdf
 convert text2.txt text2.pdf
 ```
 
-- Maintenant qu'on a nos fichiers [`text1.pdf`](ressources/text1.pdf) et [`text2.pdf`](ressources/text2.pdf) on va lancer la commande
+- Maintenant qu'on a nos fichiers [`text1.pdf`](ressources/text1.pdf)(qui a le hash SHA1 84132eda0cd60ba6223ae1946cb11c8e7c0568ca) et [`text2.pdf`](ressources/text2.pdf)(qui a le hash SHA1 f8a12aec62f6a0fa41639949610fe3a2a8532f5f), on va lancer la commande
 
 ```shell
 python3 collide.py --progressive test1.pdf test2.pdf
