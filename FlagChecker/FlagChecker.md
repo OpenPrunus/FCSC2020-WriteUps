@@ -22,7 +22,7 @@ On voit ici 3 fichiers
 - Un fichier JS ([`index.js`](ressources/index.js))
 - Un fichier [WebAssembly](https://fr.wikipedia.org/wiki/WebAssembly) ([`index.wasm`](ressources/index.wasm))
 
-Le code source HTML, rien de pertinent dedans. Le fichier JS utilise des fonctions qui sont défini dans le fihcier WebAssmebly. Regardons un peu le contenu de `index.wasm`
+Le code source HTML, rien de pertinent dedans. Le fichier JS utilise des fonctions qui sont définies dans le fihcier WebAssmebly. Regardons un peu le contenu de `index.wasm`
 
 ![image3](assets/image3.png)
 
@@ -52,16 +52,16 @@ static const u8 data_segment_data_0[] = {
 };
 ```
 
-Si on décode ce segment, en chaïne de caractère, on obtient la string suivante :
+Si on décode ce segment, en chaîne de caractères, on obtient la string suivante :
 
 E@P@x4f1g7f6ab:42\`1g:f:7763133;e0e;03\`6661\`bee0:33fg732;b6fea44be34g0~
 
-On se rend vite compte que cette chaïne de caractère est contenue dans le fichier `index.js`
+On se rend vite compte que cette chaîne de caractères est contenue dans le fichier `index.js`
 Ceci pourrait être notre flag.
 
 Si on le rentre dans le formulaire du service, ça ne fonctionne pas.
 
-En lisant un peu le code source `index.c`, des opérations sont faites sur une chaïne de caractère d'entrée. Sûrement la chaïne que l'on a envoyé via le frmulaire
+En lisant un peu le code source `index.c`, des opérations sont faites sur une chaîne de caractères d'entrée. Sûrement la chaîne que l'on a envoyée via le formulaire
 
 ```c
 static u32 f3(u32 p0) {
@@ -124,7 +124,7 @@ static u32 f3(u32 p0) {
 
 ## Devine !
 
-Essayons de décoder le segment trouvé dans le fichier `index.c`. Pour cela, étant donné que les flags sont sous forme `FCSC{xxx}`, où `xxx` est une chaïne de caractère.
+Essayons de décoder le segment trouvé dans le fichier `index.c`. Pour cela, étant donné que les flags sont sous forme `FCSC{xxx}`, où `xxx` est une chaîne de caractères.
 
 Regardons un peu ce qu'il se passe si on applique la fonction [XOR](https://fr.wikipedia.org/wiki/Fonction_OU_exclusif) entre E et F, puis entre @ et C
 
@@ -145,9 +145,9 @@ Ce code nous affiche :
 3
 ```
 
-On a une valeur commune qui nous laisse à penser que si on applique un XOR sur entre l'ensemble des valeurs de la chaïne et 3, nous aurons notre flag.
+On a une valeur commune qui nous laisse penser que si on applique un XOR sur l'ensemble des valeurs de la chaîne et 3, nous aurons notre flag.
 
-On construit donc un script qui va essayer de poutrer cette chaïne de caractères.
+On construit donc un script qui va essayer de poutrer cette chaîne de caractères.
 
 ```php
 <?php
